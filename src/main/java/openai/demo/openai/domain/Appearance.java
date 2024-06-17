@@ -1,6 +1,8 @@
 package openai.demo.openai.domain;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 /**
@@ -15,6 +17,7 @@ import lombok.Data;
 @Embeddable
 @Data
 public class Appearance {
+
     private String age;
     private String expression;
     private String hairColor;

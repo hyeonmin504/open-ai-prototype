@@ -1,7 +1,10 @@
 package openai.demo.openai.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import openai.demo.openai.domain.domainenum.Gender;
 
 /**
@@ -25,6 +28,9 @@ import openai.demo.openai.domain.domainenum.Gender;
  */
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Character {
 
     @Id @GeneratedValue
@@ -40,12 +46,16 @@ public class Character {
     private Gender gender;
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private StoryBoard storyBoard;
-    public Character() {
+
+    public Character(String characterPrompt, Gender gender, String name) {
+        this.characterPrompt = characterPrompt;
+        this.gender = gender;
+        this.name = name;
     }
 
-    public Character( String name, String clothes, Appearance appearance, String personality, String characterPrompt, Gender gender) {
+    public Character(String name, String clothes, Appearance appearance, String personality, String characterPrompt, Gender gender) {
         this.clothes = clothes;
         this.personality = personality;
         this.appearance = appearance;
@@ -56,6 +66,6 @@ public class Character {
 
     public void setStoryBoard(StoryBoard storyBoard) {
         this.storyBoard = storyBoard;
-        storyBoard.setCharacter(this);
+        storyBoard.getCharacter().add(this);
     }
 }
